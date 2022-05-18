@@ -23,8 +23,8 @@ const days = [
 ];
 
 export default function Application(props) {
-   const [day, setDay] = useState("Monday")
-
+  const [day, setDay] = useState("Monday")
+  console.log("The day is: ", day);
   return (
     
     <main className="layout">
