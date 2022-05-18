@@ -2,27 +2,28 @@ import React from "react";
 
 import DayListItem from "./DayListItem";
 
-export default function DayList(props) {
+export default function DayList({ days, setDay }) {
 
-  const days = props.days.map(day => {
+  const allDays = days.map(({id, name, spots }) => {
   
   return(
     
     <DayListItem
-      key={day.id}
-      name={day.name}
-      spots={day.spots}
+      key={id}
+      id={id}
+      name={name}
+      spots={spots}
       // css selected 
-      selected={day.name === props.day}
+      selected={name === id}
       // function call is on all days (props) not day of days
-      setDay={props.setDay}
+      setDay={setDay}
       />
       );
     })
 
     return(
     <ul>
-      {days}
+      {allDays}
     </ul>
     );
 }
