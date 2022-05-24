@@ -1,26 +1,23 @@
-import React from 'react';
+import React from "react";
 
 import "./styles.scss";
 
-import Header from './Header';
-import Show from './Show';
-import Empty from './Empty';
+import Header from "./Header";
+import Show from "./Show";
+import Empty from "./Empty";
 
 export default function Appointment(props) {
-  
+  const { interview, time } = props;
 
-  return(
-    <article className='appointment'>
-      <Header 
-      time={props.time}
-      />
+  return (
+    <article className="appointment">
+      <Header time={time} />
 
-    {(props.interview ? 
-    <Show 
-    student={props.interview.student}
-    interviewer={props.interview.interviewer}
-    
-    /> : <Empty />)}
+      {interview ? (
+        <Show student={interview.student} interviewer={interview.interviewer} />
+      ) : (
+        <Empty />
+      )}
     </article>
-  )
+  );
 }
