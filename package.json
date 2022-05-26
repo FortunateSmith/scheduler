@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.27.2",
     "classnames": "^2.2.6",
     "fsevents": "^1.2.9",
     "normalize.css": "^8.0.1",
@@ -31,7 +32,6 @@
     ]
   },
   "proxy": "http://localhost:8001",
-
   "devDependencies": {
     "@babel/core": "^7.4.3",
     "@storybook/addon-actions": "^5.0.10",
