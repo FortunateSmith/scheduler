@@ -1,11 +1,14 @@
+import { NULL } from "node-sass";
+
 export function getAppointmentsForDay(state, day) {
   let scheduleForDay = [];
 
   if (state.length === 0) {
     return scheduleForDay;
   }
-  const {days, appointments: dayApps} = state;
- 
+  // destructure state for easier functionality with nested objects/arrays
+  const { days, appointments: dayApps } = state;
+
   for (const d of days) {
     //tuesday
     if (d.name === day) {
@@ -16,4 +19,14 @@ export function getAppointmentsForDay(state, day) {
     }
   }
   return scheduleForDay;
+}
+
+export function getInterview(state, interview) {
+  
+  const { interviewers } = state;
+  if (!interview) {
+      return null;    
+  }
+// interview{student: name, interviewer: id}
+  return {...interview, interviewer: interviewers[interview.interviewer]}
 }
