@@ -1,12 +1,14 @@
+// TOP LEVEL COMPONENT
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import "components/Application.scss";
 import DayList from "./DayList";
 import Appointment from "./Appointment";
-import { getAppointmentsForDay } from "helpers/selectors";
+import { getAppointmentsForDay, getInterview } from "helpers/selectors";
 
-export default function Application(props) {
+export default function Application() {
   const [state, setState] = useState({
     day: "Monday",
     days: [],
@@ -16,19 +18,22 @@ export default function Application(props) {
 
   const dailyAppointments = getAppointmentsForDay(state, state.day);
   const setDay = (day) => setState({ ...state, day });
-  
-  useEffect(
-    () => {
-      Promise.all([
-        axios.get("/api/days"),
-        axios.get("/api/appointments"),
-        axios.get("/api/interviewers")
-      ]).then((all) => {
-        /* prev: what is already in the state history, replace with new data for days/appointments */
-        setState(prev => ({...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data }))
-      })
-    },[]
-  );
+
+  useEffect(() => {
+    Promise.all([
+      axios.get("/api/days"),
+      axios.get("/api/appointments"),
+      axios.get("/api/interviewers"),
+    ]).then((all) => {
+      /* prev: what is already in the state history, replace with new data for days/appointments */
+      setState((prev) => ({
+        ...prev,
+        days: all[0].data,
+        appointments: all[1].data,
+        interviewers: all[2].data,
+      }));
+    });
+  }, []);
 
   return (
     <main className="layout">
@@ -40,11 +45,7 @@ export default function Application(props) {
         />
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
-          <DayList           
-            days={state.days}
-            value={state.day}
-            onChange={setDay}
-          />
+          <DayList days={state.days} value={state.day} onChange={setDay} />
         </nav>
         <img
           className="sidebar__lhl sidebar--centered"
@@ -53,8 +54,9 @@ export default function Application(props) {
         />
       </section>
       <section className="schedule">
-        {dailyAppointments.map(app => {
-          const interview = getInterview(state, app.interview)
+        {dailyAppointments.map((app) => {
+          // what is being passed?
+          const interview = getInterview(state, app.interview);
 
           return (
             <Appointment
@@ -65,6 +67,7 @@ export default function Application(props) {
             />
           );
         })}
+        <Appointment key="last" time="5pm" />
       </section>
     </main>
   );
