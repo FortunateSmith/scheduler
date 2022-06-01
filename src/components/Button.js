@@ -10,7 +10,7 @@ export default function Button(props) {
       " button--confirm": props.confirm
 })
  
-   return <button className={buttonClass} onSubmit={props.onClick} disabled={props.disabled}>{props.children}</button>;
+   return <button className={buttonClass} onClick={props.onClick} disabled={props.disabled}>{props.children}</button>;
  }
 
  
