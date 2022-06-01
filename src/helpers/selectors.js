@@ -1,5 +1,3 @@
-import { NULL } from "node-sass";
-
 export function getAppointmentsForDay(state, day) {
   let scheduleForDay = [];
 
@@ -28,5 +26,7 @@ export function getInterview(state, interview) {
       return null;    
   }
 // interview{student: name, interviewer: id}
+/* spread operator creates copy, then interviewer (id) is overwritten with
+interviewer object that shares the same id (look at test data) */
   return {...interview, interviewer: interviewers[interview.interviewer]}
 }
