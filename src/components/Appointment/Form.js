@@ -7,9 +7,10 @@ export default function Form(props) {
     setInterviewer(() => null);
     setStudent(() => "");
   };
-
+console.log("Renders Form")
   const cancel = () => {
     reset();
+    console.log("Anything")
     props.onCancel("Cancel Request");
   };
 
