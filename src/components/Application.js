@@ -6,16 +6,21 @@ import axios from "axios";
 import "components/Application.scss";
 import DayList from "./DayList";
 import Appointment from "./Appointment";
-import { getAppointmentsForDay, getInterview } from "helpers/selectors";
+import {
+  getAppointmentsForDay,
+  getInterview,
+  getInterviewersForDay,
+} from "helpers/selectors";
 
 export default function Application() {
   const [state, setState] = useState({
     day: "Monday",
     days: [],
     appointments: {},
-    interviewers: {}
+    interviewers: {},
   });
 
+  const interviewers = getInterviewersForDay(state, state.day);
   const dailyAppointments = getAppointmentsForDay(state, state.day);
   const setDay = (day) => setState({ ...state, day });
 
@@ -34,6 +39,26 @@ export default function Application() {
       }));
     });
   }, []);
+
+  function bookInterview(id, interview) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview },
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment,
+    };
+
+    // PARAMS NEED TEMPLATE LITERALS FROM FRONT
+    return axios
+      .put(`/api/appointments/${id}`, appointment)
+      .then(() => {
+        setState({ ...state, appointments });
+        return true;
+      })
+      .catch((error) => Promise.reject(error));
+  }
 
   return (
     <main className="layout">
@@ -57,17 +82,19 @@ export default function Application() {
         {dailyAppointments.map((app) => {
           // what is being passed?
           const interview = getInterview(state, app.interview);
-
+          console.log("interview: ", interview);
           return (
             <Appointment
               key={app.id}
               id={app.id}
               time={app.time}
               interview={interview}
+              interviewers={interviewers}
+              bookInterview={bookInterview}
             />
           );
         })}
-        <Appointment key="last" time="5pm" />
+        <Appointment key="last" time="5pm" bookInterview={bookInterview} />
       </section>
     </main>
   );
