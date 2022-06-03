@@ -1,5 +1,4 @@
 import React from "react";
-
 import "./styles.scss";
 
 // CHILD COMPONENTS
@@ -17,21 +16,24 @@ export default function Appointment(props) {
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
-  const SAVING = "STATUS";
+  const STATUS = "STATUS";
   // ternary is used to set initial state of mode
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
 
-  
+  function deleteAppointment() {
+    transition(STATUS);
+    props.cancelInterview(props.id)
+      .then(() => transition(EMPTY));
+  }
 
   function save(name, interviewer) {
     const interview = {
       student: name,
       interviewer
     };
-    console.log("*************", interview);
-    transition(SAVING);
+    transition(STATUS);
     props.bookInterview(props.id, interview)
       .then(() => transition(SHOW));
   }
@@ -45,11 +47,12 @@ export default function Appointment(props) {
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer}
+          onDelete={deleteAppointment}
         />
       )}
       {mode === CREATE && <Form interviewers={props.interviewers} onCancel={back} onSave={save} />}
 
-      {mode === SAVING && <Status />}
+      {mode === STATUS && <Status />}
 
       {/* CODE BEING REPLACED:: {interview ? (
         <Show student={interview.student} interviewer={interview.interviewer} />

@@ -52,12 +52,31 @@ export default function Application() {
 
     // PARAMS NEED TEMPLATE LITERALS FROM FRONT
     return axios
-      .put(`/api/appointments/${id}`, appointment)
-      .then(() => {
-        setState({ ...state, appointments });
-        return true;
-      })
-      .catch((error) => Promise.reject(error));
+    .put(`/api/appointments/${id}`, appointment)
+    .then(() => {
+      setState({ ...state, appointments });
+      return true;
+    })
+    .catch((error) => Promise.reject(error));
+  }
+  
+  function cancelInterview(id) {
+    console.log(id);
+    const appointment = {
+      ...state.appointments[id],
+      interview: null 
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    }
+    return axios
+    .delete(`/api/appointments/${id}`, appointment)
+    .then(() => {
+      setState({ ...state, appointments });
+      return true;
+    })
+    .catch((error) => Promise.reject(error));
   }
 
   return (
@@ -91,6 +110,7 @@ export default function Application() {
               interview={interview}
               interviewers={interviewers}
               bookInterview={bookInterview}
+              cancelInterview={cancelInterview}
             />
           );
         })}

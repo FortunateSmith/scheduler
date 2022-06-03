@@ -2,9 +2,6 @@ import React from "react";
 import "./styles.scss";
 
 export default function Show(props) {
-  const edit = () => {
-    props.onEdit("onEdit");
-  };
 
   return (
     <main className="appointment__card appointment__card--show">
@@ -21,13 +18,13 @@ export default function Show(props) {
             className="appointment__actions-button"
             src="images/edit.png"
             alt="Edit"
-            onClick={edit}
+            onClick={props.onEdit}
           />
           <img
             className="appointment__actions-button"
             src="images/trash.png"
             alt="Delete"
-            onClick={() => props.onDelete("10")}
+            onClick={props.onDelete}
           />
         </section>
       </section>
