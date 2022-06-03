@@ -19,6 +19,7 @@ export default function Appointment(props) {
   const SAVING = "SAVING";
   const DELETING = "DELETING";
   const CONFIRM = "CONFIRM";
+  const EDIT = "EDIT";
   // ternary is used to set initial state of mode
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
@@ -35,9 +36,6 @@ export default function Appointment(props) {
 
   function deleteAppointment() {
     transition(CONFIRM);
-    // transition(STATUS);
-    // props.cancelInterview(props.id)
-    //   .then(() => transition(EMPTY));
   }
 
   function onConfirm() {
@@ -47,6 +45,10 @@ export default function Appointment(props) {
 
   function onCancel() {
     transition(SHOW);
+  }
+
+  function onEdit() {
+    transition(EDIT);
   }
 
   return (
@@ -59,10 +61,21 @@ export default function Appointment(props) {
           student={props.interview.student}
           interviewer={props.interview.interviewer}
           onDelete={deleteAppointment}
+          onEdit={onEdit}
         />
       )}
       {mode === CREATE && (
         <Form interviewers={props.interviewers} onCancel={back} onSave={save} />
+      )}
+
+      {mode === EDIT && (
+        <Form
+          student={props.interview.student}
+          interviewer={props.interview.interviewer.id}
+          interviewers={props.interviewers}
+          onCancel={back}
+          onSave={save}
+        />
       )}
 
       {mode === SAVING && <Status message={"Saving"} />}
