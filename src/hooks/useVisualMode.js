@@ -9,7 +9,7 @@ export default function useVisualMode(initial) {
       setHistory((prev) => {
         const initialHist = [...prev];
         initialHist.pop();
-        // console.log("Initial history: ", initialHist);
+        // ////////console.log("Initial history: ", initialHist);
         return initialHist;
       });
     }
@@ -40,10 +40,10 @@ export default function useVisualMode(initial) {
     setHistory(newHistory);
     // set mode to last item of current newHistory array [second]
     setMode(newHistory.slice(-1).pop());
-    // console.log("newHistory: ", newHistory);
-    // console.log("current mode: ", mode);
+    // /////////console.log("newHistory: ", newHistory);
+    // /////////console.log("current mode: ", mode);
   }
-  console.log("history: ", history, "mode: ", mode);
+  // //////////console.log("history: ", history, "mode: ", mode);
   // return signature
   return {
     // mode: current state
