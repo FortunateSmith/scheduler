@@ -2,10 +2,7 @@ import React from "react";
 import "./styles.scss";
 
 export default function Error(props) {
-  const closeError = () => {
-    props.onClose("Close Error");
-  }
-
+ 
   return (
     <main className="appointment__card appointment__card--error">
       <section className="appointment__error-message">
@@ -16,7 +13,7 @@ export default function Error(props) {
         className="appointment__error-close"
         src="images/close.png"
         alt="Close"
-        onClick={closeError}
+        onClick={props.onClose}
       />
     </main>
   );
