@@ -1,8 +1,10 @@
-// TOP LEVEL COMPONENT
+// TOP LEVEL COMPONENT - Child of Index.js
 
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
 
+// ***************
+import useApplicationData from "hooks/useApplicationData";
+// ***************
 import "components/Application.scss";
 import DayList from "./DayList";
 import Appointment from "./Appointment";
@@ -11,73 +13,21 @@ import {
   getInterview,
   getInterviewersForDay,
 } from "helpers/selectors";
-
+// *****************
 export default function Application() {
-  const [state, setState] = useState({
-    day: "Monday",
-    days: [],
-    appointments: {},
-    interviewers: {},
-  });
+
+  const {
+    state,
+    setDay,
+    bookInterview,
+    cancelInterview
+  } = useApplicationData();
+
 
   const interviewers = getInterviewersForDay(state, state.day);
   const dailyAppointments = getAppointmentsForDay(state, state.day);
-  const setDay = (day) => setState({ ...state, day });
-
-  useEffect(() => {
-    Promise.all([
-      axios.get("/api/days"),
-      axios.get("/api/appointments"),
-      axios.get("/api/interviewers"),
-    ]).then((all) => {
-      /* prev: what is already in the state history, replace with new data for days/appointments */
-      setState((prev) => ({
-        ...prev,
-        days: all[0].data,
-        appointments: all[1].data,
-        interviewers: all[2].data,
-      }));
-    });
-  }, []);
-
-  function bookInterview(id, interview) {
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview },
-    };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment,
-    };
-
-    // PARAMS NEED TEMPLATE LITERALS FROM FRONT
-    return axios
-    .put(`/api/appointments/${id}`, appointment)
-    .then(() => {
-      setState({ ...state, appointments });
-      return true;
-    })
-    .catch((error) => Promise.reject(error));
-  }
   
-  function cancelInterview(id) {
-    console.log(id);
-    const appointment = {
-      ...state.appointments[id],
-      interview: null 
-    };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    }
-    return axios
-    .delete(`/api/appointments/${id}`, appointment)
-    .then(() => {
-      setState({ ...state, appointments });
-      return true;
-    })
-    .catch((error) => Promise.reject(error));
-  }
+
 
   return (
     <main className="layout">
