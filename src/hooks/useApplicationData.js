@@ -27,25 +27,40 @@ export default function useApplicationData() {
       }));
     });
   }, []);
+  
+  /* 
 
+  
 
+  
 
+       */
 
+  
   function bookInterview(id, interview) {
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview },
-    };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment,
-    };
+
+
+        const appointment = {
+          ...state.appointments[id],
+          interview: { ...interview },
+        };
+        const appointments = {
+          ...state.appointments,
+          [id]: appointment,
+        };
+
+        const updatedDays = 
+          state.days.map(d => d.name === state.day && state.appointments[id].interview === null ? {...d, spots: d.spots - 1} : d )
+
+          console.log("updated days: ", updatedDays)
+        
 
     // PARAMS NEED TEMPLATE LITERALS FROM FRONT
     return axios
     .put(`/api/appointments/${id}`, appointment)
+    // double .then would cause a second rerender (would have all the info before axios call)
     .then(() => {
-      setState({ ...state, appointments });
+      setState({ ...state, appointments, days: updatedDays });
       return true;
     })
     .catch((error) => Promise.reject(error));
@@ -57,7 +72,7 @@ export default function useApplicationData() {
 
 
   function cancelInterview(id) {
-    console.log(id);
+    // console.log(id);
     const appointment = {
       ...state.appointments[id],
       interview: null 
@@ -66,10 +81,14 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment
     }
+
+    const updatedDays = 
+          state.days.map(d => d.name === state.day ? {...d, spots: d.spots + 1} : d )
+
     return axios
     .delete(`/api/appointments/${id}`, appointment)
     .then(() => {
-      setState({ ...state, appointments });
+      setState({ ...state, appointments, days: updatedDays });
       return true;
     })
     .catch((error) => Promise.reject(error));
