@@ -15,19 +15,11 @@ import {
 } from "helpers/selectors";
 // *****************
 export default function Application() {
-
-  const {
-    state,
-    setDay,
-    bookInterview,
-    cancelInterview
-  } = useApplicationData();
-
+  const { state, setDay, bookInterview, cancelInterview } =
+    useApplicationData();
 
   const interviewers = getInterviewersForDay(state, state.day);
   const dailyAppointments = getAppointmentsForDay(state, state.day);
-  
-
 
   return (
     <main className="layout">
@@ -51,7 +43,7 @@ export default function Application() {
         {dailyAppointments.map((app) => {
           // what is being passed?
           const interview = getInterview(state, app.interview);
-          console.log("interview: ", interview);
+
           return (
             <Appointment
               key={app.id}
