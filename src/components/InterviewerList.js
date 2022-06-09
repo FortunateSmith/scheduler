@@ -1,6 +1,7 @@
 import React from "react";
 import InterviewerListItem from "./InterviewerListItem";
 import "components/InterviewerList.scss";
+import PropTypes from "prop-types";
 
 export default function InterviewerList(props) {
   const { interviewers, interviewer, setInterviewer } = props;
@@ -18,16 +19,13 @@ export default function InterviewerList(props) {
   });
 
   return (
-    // ISSUE: onClick action printing one empty array and one array with id when in section tag or <ul>. But prints only once when in <h4>. Why?
-    //
     <section className="interviewers">
-      <h4
-        className="interviewers__header text--light"
-        // onClick={() => set(value)}
-      >
-        Interviewer
-      </h4>
+      <h4 className="interviewers__header text--light">Interviewer</h4>
       <ul className="interviewers__list">{allInterviewers}</ul>
     </section>
   );
 }
+
+InterviewerList.propTypes = {
+  interviewers: PropTypes.array.isRequired,
+};
