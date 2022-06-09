@@ -3,20 +3,32 @@ import InterviewerList from "components/InterviewerList";
 import Button from "components/Button";
 
 export default function Form(props) {
+  // props.student** student is the value targeted in the html name attribute, must match in test (as well as parent components)
   const [student, setStudent] = useState(props.student || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
-
+  const [error, setError] = useState("");
   const reset = () => {
-    setInterviewer(() => null);
-    setStudent(() => "");
+    // no function call necessary, only value neede to reset student and interviewer
+    setInterviewer(null);
+    setStudent("");
   };
 
   const cancel = () => {
     reset();
-    props.onCancel("Cancel Request");
+    setError("");
+    props.onCancel();
   };
 
-  const saveReq = () => {
+  const validate = () => {
+    if (student === "") {
+      setError("student name cannot be blank");
+      return;
+    }
+    if (!interviewer) {
+      setError("please select an interviewer");
+      return;
+    }
+    setError("");
     props.onSave(student, interviewer);
   };
 
@@ -26,14 +38,17 @@ export default function Form(props) {
         <form autoComplete="off" onSubmit={(event) => event.preventDefault()}>
           <input
             className="appointment__create-input text--semi-bold"
+            // "student" as target, matches props and test
             name="name"
             type="text"
             placeholder="Enter Student Name"
+            data-testid="student-name-input"
             value={student}
             // capture happens here!!!
             onChange={(event) => setStudent(event.target.value)}
           />
         </form>
+        <section className="appointment__validation">{error}</section>
         <InterviewerList
           setInterviewer={setInterviewer}
           interviewers={props.interviewers}
@@ -45,7 +60,7 @@ export default function Form(props) {
           <Button danger onClick={cancel}>
             Cancel
           </Button>
-          <Button confirm onClick={saveReq}>
+          <Button confirm onClick={validate}>
             Save
           </Button>
         </section>
