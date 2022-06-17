@@ -10,7 +10,7 @@ Install dependencies with `npm install`.
 * Application defaults to http://localhost:8000/.
 * Run the client with `npm start`.
 
-* Clone and install the [server]("https://github.com/lighthouse-labs/scheduler-api"). Follow instructions to run the server.
+* Clone and install the [server](https://github.com/lighthouse-labs/scheduler-api). Follow instructions to run the server.
 * Server defaults to http://localhost:8080/api. 
 * Server can repopulate scheduler with randomized data by navigating to http://localhost:8080/api/debug/reset
 
