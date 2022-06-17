@@ -4,6 +4,7 @@ export default function useVisualMode(initial) {
   const [mode, setMode] = useState(initial);
   const [history, setHistory] = useState([initial]);
 
+  // transitions from one mode to the next
   function transition(newMode, replace) {
     if (replace) {
       setHistory((prev) => {
@@ -16,11 +17,7 @@ export default function useVisualMode(initial) {
 
     setMode(newMode);
 
-    // to set history with only array variable, must create a copy
-    // const newHistory = [...history];
-    // setHistory(newHistory);
-
-    // to set history with function use prev function to create newHistory variable that is spread prev and push the new mode
+    // tracks history of state for back function to utilize
     setHistory((prev) => {
       const newHistory = [...prev];
       newHistory.push(newMode);
@@ -28,25 +25,20 @@ export default function useVisualMode(initial) {
     });
   }
 
-  // back must pop last index of array and return mode to previous (current last index)
+  // returns mode to immediate previous state
   function back() {
     if (history.length < 2) {
       return;
     }
     const newHistory = [...history];
-    // pop last item and return newHistory array [first, second, third]
     newHistory.pop();
-    // set history with current newHistory array [first, second]
     setHistory(newHistory);
-    // set mode to last item of current newHistory array [second]
     setMode(newHistory.slice(-1).pop());
   }
 
-  // return signature
+  // ***** return signature *****
   return {
-    // mode: current state
     mode,
-    // functions
     transition,
     back,
   };

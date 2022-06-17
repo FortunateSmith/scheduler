@@ -10,9 +10,7 @@ export default function DayList({ days, onChange, value }) {
         id={id}
         name={name}
         spots={spots}
-        // css selected
         selected={name === value}
-        // reference to setDay function in useApplicationData
         setDay={onChange}
       />
     );

@@ -8,7 +8,7 @@ export default function Form(props) {
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
   const [error, setError] = useState("");
   const reset = () => {
-    // no function call necessary, only value neede to reset student and interviewer
+    // no function call necessary, only value needed to reset student and interviewer
     setInterviewer(null);
     setStudent("");
   };
@@ -38,13 +38,11 @@ export default function Form(props) {
         <form autoComplete="off" onSubmit={(event) => event.preventDefault()}>
           <input
             className="appointment__create-input text--semi-bold"
-            // "student" as target, matches props and test
             name="name"
             type="text"
             placeholder="Enter Student Name"
             data-testid="student-name-input"
             value={student}
-            // capture happens here!!!
             onChange={(event) => setStudent(event.target.value)}
           />
         </form>

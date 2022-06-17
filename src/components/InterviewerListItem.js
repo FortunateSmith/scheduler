@@ -14,13 +14,8 @@ export default function InterviewerListItem({
 
   return (
     <li className={interviewerClass} onClick={setInterviewer}>
-      <img
-        className="interviewers__item-image"
-        src={avatar}
-        // for seo and accessibility reasons
-        alt={name}
-      />
-      {/* conditional rendering of name, using && what is on the right will execute if what is on the left is true */}
+      <img className="interviewers__item-image" src={avatar} alt={name} />
+
       {selected && name}
     </li>
   );

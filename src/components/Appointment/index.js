@@ -2,6 +2,7 @@ import React from "react";
 import "./styles.scss";
 
 // CHILD COMPONENTS
+// all mode changes managed from this file
 import Header from "./Header";
 import Show from "./Show";
 import Empty from "./Empty";
@@ -37,14 +38,11 @@ export default function Appointment(props) {
     props
       .bookInterview(props.id, interview)
       .then(() => transition(SHOW))
-      .catch(error => transition(ERROR_SAVE, true));
+      .catch((error) => transition(ERROR_SAVE, true));
   }
 
   function deleteAppointment() {
     transition(CONFIRM);
-    // transition(STATUS);
-    // props.cancelInterview(props.id)
-    //   .then(() => transition(EMPTY));
   }
 
   function onConfirm() {
@@ -52,7 +50,7 @@ export default function Appointment(props) {
     props
       .cancelInterview(props.id)
       .then(() => transition(EMPTY))
-      .catch(error => transition(ERROR_DELETE, true));
+      .catch((error) => transition(ERROR_DELETE, true));
   }
 
   function onCancel() {
@@ -109,12 +107,6 @@ export default function Appointment(props) {
       {mode === ERROR_DELETE && (
         <Error onClose={back} message={"Could not cancel appointment"} />
       )}
-
-      {/* CODE BEING REPLACED:: {interview ? (
-        <Show student={interview.student} interviewer={interview.interviewer} />
-      ) : (
-        <Empty />
-      )} */}
     </article>
   );
 }

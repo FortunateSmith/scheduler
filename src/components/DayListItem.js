@@ -4,7 +4,6 @@ import classNames from "classnames";
 
 export default function DayListItem({ spots, name, setDay, selected }) {
   function spotsRemaining() {
-    // refactored with Ahana's help!
     if (spots === 0) {
       return "no spots remaining";
     } else if (spots === 1) {

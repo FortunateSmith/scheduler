@@ -1,11 +1,6 @@
-// TOP LEVEL COMPONENT - Child of Index.js
-
 import React from "react";
 
-// ***************
-// all data management is imported here (separation of concerns)
 import useApplicationData from "hooks/useApplicationData";
-// ***************
 import "components/Application.scss";
 import DayList from "./DayList";
 import Appointment from "./Appointment";
@@ -14,7 +9,7 @@ import {
   getInterview,
   getInterviewersForDay,
 } from "helpers/selectors";
-// *****************
+
 export default function Application() {
   const { state, setDay, bookInterview, cancelInterview } =
     useApplicationData();
@@ -44,7 +39,7 @@ export default function Application() {
         {dailyAppointments.map((app) => {
           const interview = getInterview(state, app.interview);
 
-          // props created here to be passed down to children
+          // top level props created here to be passed down to children
           return (
             <Appointment
               key={app.id}
