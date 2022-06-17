@@ -32,6 +32,9 @@ npm test
 ```sh
 npm run storybook
 ```
+
+!["Scheduler in Action"](https://github.com/FortunateSmith/scheduler/blob/master/docs/scheduler.gif?raw=true)
+
 ## Dependencies
 
     * axios
