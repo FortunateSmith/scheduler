@@ -3,7 +3,7 @@ import "components/DayListItem.scss";
 import classNames from "classnames";
 
 export default function DayListItem({ spots, name, setDay, selected }) {
-  function formatSpots() {
+  function spotsRemaining() {
     // refactored with Ahana's help!
     if (spots === 0) {
       return "no spots remaining";
@@ -19,9 +19,14 @@ export default function DayListItem({ spots, name, setDay, selected }) {
   });
 
   return (
-    <li className={dayClass} onClick={() => setDay(name)} selected={selected} data-testid="day" >
+    <li
+      className={dayClass}
+      onClick={() => setDay(name)}
+      selected={selected}
+      data-testid="day"
+    >
       <h2 className="text--regular">{name}</h2>
-      <h3 className="text--light">{formatSpots()}</h3>
+      <h3 className="text--light">{spotsRemaining()}</h3>
     </li>
   );
 }

@@ -11,7 +11,6 @@ export default function useApplicationData() {
 
   const setDay = (day) => setState({ ...state, day });
 
-
   useEffect(() => {
     Promise.all([
       axios.get("/api/days"),
@@ -27,77 +26,66 @@ export default function useApplicationData() {
       }));
     });
   }, []);
-  
-  /* 
 
-  
-
-  
-
-       */
-
-  
   function bookInterview(id, interview) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview },
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment,
+    };
 
+    const updatedDays = state.days.map((d) =>
+      d.name === state.day && state.appointments[id].interview === null
+        ? { ...d, spots: d.spots - 1 }
+        : d
+    );
 
-        const appointment = {
-          ...state.appointments[id],
-          interview: { ...interview },
-        };
-        const appointments = {
-          ...state.appointments,
-          [id]: appointment,
-        };
-
-        const updatedDays = 
-          state.days.map(d => d.name === state.day && state.appointments[id].interview === null ? {...d, spots: d.spots - 1} : d )
-
-          console.log("updated days: ", updatedDays)
-        
+    console.log("updated days: ", updatedDays);
 
     // PARAMS NEED TEMPLATE LITERALS FROM FRONT
-    return axios
-    .put(`/api/appointments/${id}`, appointment)
-    // double .then would cause a second rerender (would have all the info before axios call)
-    .then(() => {
-      setState({ ...state, appointments, days: updatedDays });
-      return true;
-    })
-    .catch((error) => Promise.reject(error));
+    return (
+      axios
+        .put(`/api/appointments/${id}`, appointment)
+        // double .then would cause a second rerender (would have all the info before axios call)
+        .then(() => {
+          setState({ ...state, appointments, days: updatedDays });
+          return true;
+        })
+        .catch((error) => Promise.reject(error))
+    );
   }
-
-
-
-
-
 
   function cancelInterview(id) {
     // console.log(id);
     const appointment = {
       ...state.appointments[id],
-      interview: null 
+      interview: null,
     };
     const appointments = {
       ...state.appointments,
-      [id]: appointment
-    }
+      [id]: appointment,
+    };
 
-    const updatedDays = 
-          state.days.map(d => d.name === state.day ? {...d, spots: d.spots + 1} : d )
+    const updatedDays = state.days.map((d) =>
+      d.name === state.day ? { ...d, spots: d.spots + 1 } : d
+    );
 
     return axios
-    .delete(`/api/appointments/${id}`, appointment)
-    .then(() => {
-      setState({ ...state, appointments, days: updatedDays });
-      return true;
-    })
-    .catch((error) => Promise.reject(error));
+      .delete(`/api/appointments/${id}`, appointment)
+      .then(() => {
+        setState({ ...state, appointments, days: updatedDays });
+        return true;
+      })
+      .catch((error) => Promise.reject(error));
   }
 
   return {
     state,
     setDay,
     bookInterview,
-    cancelInterview
-  }
+    cancelInterview,
+  };
 }

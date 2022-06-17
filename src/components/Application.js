@@ -3,6 +3,7 @@
 import React from "react";
 
 // ***************
+// all data management is imported here (separation of concerns)
 import useApplicationData from "hooks/useApplicationData";
 // ***************
 import "components/Application.scss";
@@ -41,9 +42,9 @@ export default function Application() {
       </section>
       <section className="schedule">
         {dailyAppointments.map((app) => {
-          // what is being passed?
           const interview = getInterview(state, app.interview);
 
+          // props created here to be passed down to children
           return (
             <Appointment
               key={app.id}

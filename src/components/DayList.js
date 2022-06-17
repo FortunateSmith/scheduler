@@ -12,7 +12,7 @@ export default function DayList({ days, onChange, value }) {
         spots={spots}
         // css selected
         selected={name === value}
-        // function call is on all days (props) not day of days
+        // reference to setDay function in useApplicationData
         setDay={onChange}
       />
     );
