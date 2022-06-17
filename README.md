@@ -4,8 +4,7 @@ A single page application (SPA) built with React that allows users to book inter
 
 ## Getting Started
 
-Install dependencies with `npm install`.
-
+* Install dependencies with `npm install`.
 
 * Application defaults to http://localhost:8000/.
 * Run the client with `npm start`.
